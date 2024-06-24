@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scroll to Next Section</title>
+    <style>
+        body, html {
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth; /* Smooth scrolling */
+            overflow: hidden; /* Ukrycie paska przewijania */
+        }
+        .section {
+            height: 100vh; /* 100% wysokości okna przeglądarki */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+        }
+        .section:nth-child(even) {
+            background-color: #f0f0f0;
+        }
+        .section:nth-child(odd) {
+            background-color: #d0d0d0;
+        }
+    </style>
+</head>
+<body>
+    <div class="section" id="section1">Section 1</div>
+    <div class="section" id="section2">Section 2</div>
+    <div class="section" id="section3">Section 3</div>
+    <div class="section" id="section4">Section 4</div>
+
+    <script>
+        let currentSection = 1;
+        const sections = document.querySelectorAll('.section');
+        const totalSections = sections.length;
+        let isScrolling = false;
+
+        window.addEventListener('wheel', (event) => {
+            if (isScrolling) return;
+
+            if (event.deltaY > 0) {
+                // Scroll down
+                if (currentSection < totalSections) {
+                    currentSection++;
+                }
+            } else {
+                // Scroll up
+                if (currentSection > 1) {
+                    currentSection--;
+                }
+            }
+
+            isScrolling = true;
+            sections[currentSection - 1].scrollIntoView({ behavior: 'smooth' });
+
+            setTimeout(() => {
+                isScrolling = false;
+            }, 1000); // Czas na zakończenie przewijania
+        });
+    </script>
+</body>
+</html>
